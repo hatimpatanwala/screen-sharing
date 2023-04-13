@@ -48,9 +48,16 @@
       );
       async function startCapture() {
         try {
-          videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(
-            displayMediaOptions
-          );
+          if (navigator.mediaDevices.getDisplayMedia) {
+            videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(
+              displayMediaOptions
+            );
+          } else {
+            videoElem.srcObject = await navigator.getDisplayMedia(
+              displayMediaOptions
+            );
+          }
+
           dumpOptionsInfo();
         } catch (err) {
           console.error('Error: ' + err);
